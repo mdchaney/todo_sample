@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_09_004111) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_09_004513) do
   create_table "todo_lists", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -26,6 +26,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_004111) do
     t.index ["user_id"], name: "index_todo_lists_users_on_user_id"
   end
 
+  create_table "todos", force: :cascade do |t|
+    t.integer "todo_list_id", null: false
+    t.text "description", null: false
+    t.boolean "finished", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["todo_list_id"], name: "index_todos_on_todo_list_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -35,4 +44,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_004111) do
 
   add_foreign_key "todo_lists_users", "todo_lists"
   add_foreign_key "todo_lists_users", "users"
+  add_foreign_key "todos", "todo_lists"
 end
